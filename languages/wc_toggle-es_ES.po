@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Toggle Product1.0.1\n"
+"POT-Creation-Date: 2016-10-21 09:35+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Pablo Poveda <yoyyosemite@gmail.com>\n"
+"Language-Team: Pablo Poveda Ortega <yoyyosemite@gmail.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: plugins/woocommerce-toggle-product\n"
+"X-Poedit-SearchPath-0: plugins/woocommerce-toggle-product\n"
+
+msgid "Publish"
+msgstr "Publicado"
+
+msgid "Hidden"
+msgstr "Oculto"
+
+msgid "Publish/Hide product"
+msgstr "Activar/Desactivar producto"
+
+msgid "This plugin requires WooCommerce plugin active"
+msgstr "Se requiere tener el plugin WooCommerce instalado y activo"
