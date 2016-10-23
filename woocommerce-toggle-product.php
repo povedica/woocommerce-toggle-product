@@ -11,17 +11,32 @@ Author URI: -
 define('WC_TOGGLE_TEXTDOMAIN', 'wc_toggle');
 define('PUBLISH', 'publish');
 define('HIDDEN', 'hidden');
+require_once 'WooCommerceToggleWPHelper.php';
 
-load_plugin_textdomain(WC_TOGGLE_TEXTDOMAIN, false, basename(dirname(__FILE__)) . '/languages');
-
-//  In this example, only allow activation on WordPress 3.7 or higher
-
-// The primary sanity check, automatically disable the plugin on activation if it doesn't
-// meet minimum requirements.static
-function activation_check()
+class WooCommerceToggle
 {
-    if (!checkRequisites()) {
-        deactivate_plugins(plugin_basename(__FILE__));
+    private $_wp_helper;
+
+    public function __construct(WooCommerceToggleWPHelper $WPHelper)
+    {
+        load_plugin_textdomain(WC_TOGGLE_TEXTDOMAIN, false, basename(dirname(__FILE__)) . '/languages');
+        $this->_wp_helper = $WPHelper;
+    }
+
+    public function isWooCommercePluginActive()
+    {
+        return $this->_wp_helper->is_active_plugin("woocommerce/woocommerce.php");
+    }
+
+    function checkPreConditions()
+    {
+        $pre_conditions_ok = true;
+        if (!checkRequisites()) {
+            deactivate_plugins(plugin_basename(__FILE__));
+            $pre_conditions_ok = false;
+        }
+
+        return $pre_conditions_ok;
     }
 }
 
@@ -47,11 +62,6 @@ function checkRequisites()
 function disabled_notice()
 {
     echo '<div class="error" style="padding: 15px; background-color: mistyrose;"><strong>' . esc_html__('This plugin requires WooCommerce plugin active', WC_TOGGLE_TEXTDOMAIN) . '</strong></div>';
-}
-
-function isWooCommercePluginActive()
-{
-    return is_plugin_active('woocommerce/woocommerce.php');
 }
 
 
