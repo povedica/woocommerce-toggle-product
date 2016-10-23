@@ -23,20 +23,36 @@ class WooCommerceToggle
         $this->_wp_helper = $WPHelper;
     }
 
-    public function isWooCommercePluginActive()
-    {
-        return $this->_wp_helper->is_active_plugin("woocommerce/woocommerce.php");
+    public function run(){
+        if(!$this->checkPreConditions()){
+            $this->deActivatePlugin(plugin_basename(__FILE__));
+            $this->unsetActivateFromGetParams($_GET);
+        }
     }
 
-    function checkPreConditions()
-    {
-        $pre_conditions_ok = true;
-        if (!checkRequisites()) {
-            deactivate_plugins(plugin_basename(__FILE__));
-            $pre_conditions_ok = false;
-        }
+    public function isPluginActive($plugin_name){
+        return $this->_wp_helper->is_active_plugin($plugin_name);
+    }
 
-        return $pre_conditions_ok;
+    public function isWooCommercePluginActive()
+    {
+        return $this->isPluginActive("woocommerce/woocommerce.php");
+    }
+
+    public function deActivatePlugin($plugin_name)
+    {
+        return $this->_wp_helper->is_active_plugin($plugin_name);
+    }
+
+    public function checkPreConditions()
+    {
+        return !$this->isWooCommercePluginActive();
+    }
+
+    public function unsetActivateFromGetParams($get_params){
+        if (isset($get_params['activate'])) {
+            unset($get_params['activate']);
+        }
     }
 }
 

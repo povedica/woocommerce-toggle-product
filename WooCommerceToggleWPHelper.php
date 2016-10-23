@@ -16,4 +16,9 @@ class WooCommerceToggleWPHelper
     {
         return is_plugin_active($plugin_name);
     }
+
+    public function deactivate_plugins($plugin_name)
+    {
+        return deactivate_plugins($plugin_name);
+    }
 }
