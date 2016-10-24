@@ -115,6 +115,20 @@ class WooCommerceToggle
         }
     }
 
+    public function getThePost(){
+        global $post;
+        return $post;
+    }
+
+    public function getTheProduct(){
+        global $the_product;
+        return $the_product;
+    }
+
+    public function isBackoffice(){
+        return $this->_wp_helper->is_admin();
+    }
+
     /**
      * Gestión de columnas añadidas por Evolufarma en la lista de productos
      * @param String $columns Columna actual
@@ -123,9 +137,10 @@ class WooCommerceToggle
      */
     public function addPublishToggleColumn($columns)
     {
-        global $post, $the_product;
+        $post = $this->getThePost();
+        $the_product = $this->getTheProduct();
 
-        if (!is_admin()) {
+        if (!$this->isBackoffice()) {
             return;
         }
 

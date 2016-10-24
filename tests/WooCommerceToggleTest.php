@@ -51,16 +51,38 @@ class WooCommerceToggleTest extends WP_UnitTestCase
         $this->assertFalse($woo_toggle->currentUserCanActivatePlugin());
     }
 
-    /*
-    public function testIfPreConditionsWorks()
+    public function testIfGetThePostReturnsWPPostObject(){
+        $wooCommerceToggle = new WooCommerceToggle(new WooCommerceToggleWPHelper());
+        global $post;
+        $post = new WP_Post((object)array('ID' =>-1));
+        $this->assertInstanceOf('WP_Post', $wooCommerceToggle->getThePost());
+    }
+
+    public function testIfGetTheProductReturnsWCProductObject(){
+        $wooCommerceToggle = new WooCommerceToggle(new WooCommerceToggleWPHelper());
+        global $the_product;
+        $the_product = new WC_Product();
+        $this->assertInstanceOf('WC_Product', $wooCommerceToggle->getTheProduct());
+    }
+
+    public function testIfIsBackoffice()
     {
         $wPHelperProphecy = $this->_prophet->prophesize('WooCommerceToggleWPHelper');
+        $wPHelperProphecy->is_admin()->willReturn(false);
         $woo_toggle = new WooCommerceToggle($wPHelperProphecy->reveal());
-        $this->assertTrue($woo_toggle->checkPreConditions());
+        $this->assertFalse($woo_toggle->isBackoffice());
     }
-    */
 
     public function tearDown() {
         \WP_Mock::tearDown();
+    }
+
+}
+
+if(!class_exists('WC_Product')){
+    class WC_Product{
+        public function __construct()
+        {
+        }
     }
 }

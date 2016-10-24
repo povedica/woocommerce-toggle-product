@@ -25,4 +25,8 @@ class WooCommerceToggleWPHelper
     public function current_user_can($capability){
         return current_user_can($capability);
     }
+
+    public function is_admin(){
+        return is_admin();
+    }
 }
