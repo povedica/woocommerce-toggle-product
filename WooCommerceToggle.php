@@ -11,10 +11,10 @@ class WooCommerceToggle
         $this->_wp_helper = $WPHelper;
         register_activation_hook(__FILE__, array($this, 'install'));
         add_action('admin_init', array($this, 'manageActivation'));
-        add_filter('manage_edit-product_columns', 'addPublishToggleColumn', 100);
-        add_action('manage_product_posts_custom_column', 'addPublishToggleColumn', 100);
-        add_filter('manage_edit-product_sortable_columns', 'addPublishToggleColumn', 100);
-        add_action('wp_ajax_ev_product_visibility', 'controlAjaxProductVisibility', 100);
+        add_filter('manage_edit-product_columns',array($this, 'addPublishToggleColumn'), 100);
+        add_action('manage_product_posts_custom_column', array($this, 'addPublishToggleColumn'), 100);
+        add_filter('manage_edit-product_sortable_columns', array($this, 'addPublishToggleColumn'), 100);
+        add_action('wp_ajax_ev_product_visibility', array($this, 'controlAjaxProductVisibility'), 100);
         load_plugin_textdomain(WC_TOGGLE_TEXTDOMAIN, false, basename(dirname(__FILE__)) . '/languages');
     }
 
@@ -152,6 +152,6 @@ class WooCommerceToggle
     public function controlAjaxProductVisibility()
     {
         $post_id = isset($_GET['product_id']) && (int)$_GET['product_id'] ? (int)$_GET['product_id'] : '';
-        manageProductVisibility($post_id, TRUE);
+        $this->manageProductVisibility($post_id, TRUE);
     }
 }
