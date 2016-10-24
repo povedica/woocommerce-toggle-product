@@ -49,7 +49,7 @@ class WooCommerceToggle
 
     public function deActivateThisPlugin()
     {
-        $this->deActivatePlugin(plugin_basename(__FILE__));
+        $this->deActivatePlugin(PLUGIN_NAME);
     }
 
     public function deActivatePlugin($plugin_name)

@@ -11,6 +11,7 @@ Author URI: -
 define('WC_TOGGLE_TEXTDOMAIN', 'wc_toggle');
 define('PUBLISH', 'publish');
 define('HIDDEN', 'hidden');
+define('PLUGIN_NAME', plugin_basename(__FILE__));
 require_once 'WooCommerceToggle.php';
 
 new WooCommerceToggle(new WooCommerceToggleWPHelper());
