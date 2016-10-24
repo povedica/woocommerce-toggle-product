@@ -129,6 +129,22 @@ class WooCommerceToggle
         return $this->_wp_helper->is_admin();
     }
 
+    public function isProduct($product){
+        return is_a($product,'WC_Product');
+    }
+
+    public function isTheSamePost($post,$product){
+        return $product->id == $post->ID;
+    }
+
+    public function getProductFromPost(WP_Post $post){
+        return wc_get_product($post, array('product_type' => 'product'));
+    }
+
+    public function currenScreenIs($screen){
+        return $this->_wp_helper->get_current_screen()->id == $screen;
+    }
+
     /**
      * Gestión de columnas añadidas por Evolufarma en la lista de productos
      * @param String $columns Columna actual
@@ -137,16 +153,16 @@ class WooCommerceToggle
      */
     public function addPublishToggleColumn($columns)
     {
-        $post = $this->getThePost();
-        $the_product = $this->getTheProduct();
-
         if (!$this->isBackoffice()) {
             return;
         }
 
-        if (empty($the_product) || $the_product->id != $post->ID) {
-            $the_product = get_product($post, array('product_type' => 'product'));
+        if(!$this->currenScreenIs('edit-product')){
+            return;
         }
+
+        $product = $this->getTheProduct();
+
 
         if (is_array($columns)) {
             $columns[PUBLISH] = __('Publish', WC_TOGGLE_TEXTDOMAIN);
@@ -154,13 +170,14 @@ class WooCommerceToggle
         } else {
             switch ($columns) {
                 case PUBLISH:
-                    $url = wp_nonce_url(admin_url('admin-ajax.php?action=ev_product_visibility&product_id=' . $post->ID), 'ev-product-visibility');
+                    $url = wp_nonce_url(admin_url('admin-ajax.php?action=ev_product_visibility&product_id=' . $product->get_id()), 'ev-product-visibility');
                     echo '<a href="' . esc_url($url) . '" title="' . __('Publish/Hide product', WC_TOGGLE_TEXTDOMAIN) . '" alt="' . __('Publish/Hide product', WC_TOGGLE_TEXTDOMAIN) . '">';
-                    echo ($the_product->is_visible()) ? '<span style="border-radius:10px;background-color:green;color:white;"class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-dismiss" style="color: red;"></span>';
+                    echo ($product->is_visible()) ? '<span style="border-radius:10px;background-color:green;color:white;"class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-dismiss" style="color: red;"></span>';
                     echo '</a>';
                     break;
             }
         }
+
         return $columns;
     }
 

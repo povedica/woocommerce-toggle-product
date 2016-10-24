@@ -65,12 +65,32 @@ class WooCommerceToggleTest extends WP_UnitTestCase
         $this->assertInstanceOf('WC_Product', $wooCommerceToggle->getTheProduct());
     }
 
+    public function testIgCurrentScreenIsEditProduct(){
+        $wPHelperProphecy = $this->_prophet->prophesize('WooCommerceToggleWPHelper');
+        $wPHelperProphecy->get_current_screen()->willReturn((object)array('id' => 'edit-product'));
+        $woo_toggle = new WooCommerceToggle($wPHelperProphecy->reveal());
+        $this->assertTrue($woo_toggle->currenScreenIs('edit-product'));
+    }
+
     public function testIfIsBackoffice()
     {
         $wPHelperProphecy = $this->_prophet->prophesize('WooCommerceToggleWPHelper');
         $wPHelperProphecy->is_admin()->willReturn(false);
         $woo_toggle = new WooCommerceToggle($wPHelperProphecy->reveal());
         $this->assertFalse($woo_toggle->isBackoffice());
+    }
+
+    public function testIfIsNotWCProduct(){
+        $woo_toggle = new WooCommerceToggle(new WooCommerceToggleWPHelper());
+        $product = new WC_Product();
+        $this->assertTrue($woo_toggle->isProduct($product));
+    }
+
+    public function testIfIsTheSamePost(){
+        $woo_toggle = new WooCommerceToggle(new WooCommerceToggleWPHelper());
+        $product = new WC_Product(1);
+        $post = new WP_Post((object)array('ID' => 1));
+        $this->assertTrue($woo_toggle->isTheSamePost($post,$product));
     }
 
     public function tearDown() {
@@ -81,8 +101,10 @@ class WooCommerceToggleTest extends WP_UnitTestCase
 
 if(!class_exists('WC_Product')){
     class WC_Product{
-        public function __construct()
+        public $id;
+        public function __construct($id = null)
         {
+            $this->id = $id;
         }
     }
 }

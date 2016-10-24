@@ -29,4 +29,8 @@ class WooCommerceToggleWPHelper
     public function is_admin(){
         return is_admin();
     }
+
+    public function get_current_screen(){
+        return get_current_screen();
+    }
 }
