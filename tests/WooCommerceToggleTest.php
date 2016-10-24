@@ -14,6 +14,7 @@ class WooCommerceToggleTest extends WP_UnitTestCase
     {
         require_once dirname(__FILE__) . '/../woocommerce-toggle-product.php';
         $this->_prophet = new Prophecy\Prophet();
+        \WP_Mock::setUp();
     }
 
     /**
@@ -43,6 +44,13 @@ class WooCommerceToggleTest extends WP_UnitTestCase
         $this->assertEquals(false,isset($arr['activate']));
     }
 
+    public function testIfCurrentUserCanActivatePlugin(){
+        $wPHelperProphecy = $this->_prophet->prophesize('WooCommerceToggleWPHelper');
+        $wPHelperProphecy->current_user_can('activate_plugins')->willReturn(false);
+        $woo_toggle = new WooCommerceToggle($wPHelperProphecy->reveal());
+        $this->assertFalse($woo_toggle->currentUserCanActivatePlugin());
+    }
+
     /*
     public function testIfPreConditionsWorks()
     {
@@ -51,4 +59,8 @@ class WooCommerceToggleTest extends WP_UnitTestCase
         $this->assertTrue($woo_toggle->checkPreConditions());
     }
     */
+
+    public function tearDown() {
+        \WP_Mock::tearDown();
+    }
 }

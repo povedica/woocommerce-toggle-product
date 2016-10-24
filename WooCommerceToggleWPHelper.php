@@ -21,4 +21,8 @@ class WooCommerceToggleWPHelper
     {
         return deactivate_plugins($plugin_name);
     }
+
+    public function current_user_can($capability){
+        return current_user_can($capability);
+    }
 }
