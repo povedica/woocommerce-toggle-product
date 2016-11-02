@@ -29,6 +29,6 @@ Take about the owner of the directory and privileges of plugin dir.
 ### Screenshots
 Some screenshots:
 
-![alt text](woocommerce-toggle-product/screenshot_visible.png "Product visibility: visible")
+![Visible](woocommerce-toggle-product/master/screenshot_visible.png "Product visibility: visible")
 
-![alt text](woocommerce-toggle-product/screenshot_hidden.png "Product visibility: hidden")
+![Hidden](woocommerce-toggle-product/master/screenshot_hidden.png "Product visibility: hidden")
